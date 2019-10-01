@@ -1,0 +1,28 @@
+<section style="border-top:solid;padding-top: 15px">
+    <h3 id="comment-area">评论</h3>
+    <form method="post" action="{% url 'comments:comment' post.pk %}">
+        {% csrf_token %}
+        <div class="row uniform">
+            <div class="6u 12u$(xsmall)">
+                {{ form.name }}
+                {{ form.name.errors }}
+            </div>
+            <div class="6u$ 12u$(xsmall)">
+                {{ form.email }}
+                {{ form.email.errors }}
+
+            </div>
+
+            <div class="12u$">
+                {{ form.text }}
+                {{ form.text.errors }}
+            </div>
+            <div class="12u$">
+                <ul class="actions">
+                    <li><input type="submit" value="submit comment" id="buttong"/></li>
+                    <li><input type="reset" value="Reset"/></li>
+                </ul>
+            </div>
+        </div>
+    </form>
+</section>

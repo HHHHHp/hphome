@@ -1,0 +1,190 @@
+{% load staticfiles %}
+{% load blog_tags %}
+{% load comments_area %}
+
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>
+        {% block title %}
+        {% endblock %}
+    </title>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.8/styles/github.min.css" rel="stylesheet">
+    <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+    <link rel="stylesheet" href="{% static '/275/assets/css/main.css' %}"/>
+    <!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+    <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+</head>
+<body>
+
+<div id="wrapper">
+
+    <!-- Header -->
+    <header id="header">
+        <h1><a href="/index">Home</a></h1>
+        <nav class="links">
+            <ul>
+                {% get_tags as tags %}
+                {% for tag in tags %}
+                    <li><a href="/tag/{{ tag.name }}">{{ tag.name }}</a></li>
+                {% endfor %}
+            </ul>
+        </nav>
+        <nav class="main">
+            <ul>
+                <li class="search">
+                    <a class="fa-search" href="#search">Search</a>
+                    <form id="search" method="get" action="/search">
+                        <input type="text" name="search" placeholder="Search"/>
+                    </form>
+                </li>
+                <li class="menu">
+                    <a class="fa-bars" href="#menu">Menu</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Menu -->
+    <section id="menu">
+
+        <!-- Search -->
+        <section>
+            <form class="search" method="get" action="/search">
+                <input type="text" name="search" placeholder="Search"/>
+            </form>
+        </section>
+
+        <!-- Links -->
+        <section>
+            <ul class="links">
+                <li>
+                    <a href="#">
+                        <h1>分类</h1>
+                    </a>
+                </li>
+                {% get_categories as categories %}
+                {% for category in categories %}
+                    <li>
+                        <a href="/category/{{ category.name }}">
+                            <h4>{{ category.name }}</h4>
+                        </a>
+                    </li>
+
+                {% endfor %}
+            </ul>
+        </section>
+
+    </section>
+
+    <!-- Main -->
+    <div id="main">
+
+        {% block articles %}
+
+        {% endblock %}
+
+        {% block article_detail %}
+
+        {% endblock %}
+
+        <!-- Pagination -->
+        {% block pagination %}
+
+        {% endblock %}
+    </div>
+
+    <!-- Sidebar -->
+    <section id="sidebar">
+
+        <!-- Intro -->
+        <section>
+            <ul class="posts" style="margin-bottom: 0">
+                <li>
+                    <article>
+                        <header>
+                            <h1><a>热门文章</a></h1>
+                        </header>
+                    </article>
+                </li>
+            </ul>
+        </section>
+
+
+        <!-- Mini Posts -->
+        <section style="margin-top:15px;padding-top: 15px">
+            <div class="mini-posts">
+
+                <!-- Mini Post -->
+                {% get_most_view_post as favoriteArticles %}
+                {% for article in favoriteArticles %}
+                    <article class="mini-post">
+                        <header>
+                            <h1><a href="/post/{{ article.id }}">{{ article.title }}</a></h1>
+                            <a href="#" class="icon fa-heart-o" style="font-size: 10px">&nbsp;&nbsp;{{ article.like }}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <a class="icon fa-book" style="font-size: 10px">&nbsp;&nbsp;{{ article.views }}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <a href="#" class="icon fa-comment" style="font-size: 10px">&nbsp;&nbsp;{% show_comments_count article %}</a>
+
+                            <time class="published"
+                                  datetime="2015-10-20" style="margin-top: 10px;margin-bottom: 5px">
+                                {{ article.created_time.month }} {{ article.created_time.day }}, {{ article.created_time.year }}
+                            </time>
+                        </header>
+                    </article>
+                {% endfor %}
+
+            </div>
+        </section>
+
+        <!-- Posts List -->
+
+        <!-- About -->
+        <section class="blurb" style="padding-top: 15px">
+            <h1>About me</h1>
+            <h4>某乎劝退专业本硕</h4>
+            <h4>积极投入互联网寒冬</h4>
+        </section>
+
+        <!-- Footer -->
+        <section id="footer" style="margin-top: 15px;">
+            <ul class="icons">
+                <h6>contact me</h6>
+
+                <li><a href="#" class="fa-github"><span class="label">Twitter</span></a></li>
+                <li><a href="#" class="fa-wechat"><span class="label">Facebook</span></a></li>
+                <li><a href="#" class="fa-qq"><span class="label">Instagram</span></a></li>
+                <li><a href="#" class="fa-weibo"><span class="label">RSS</span></a></li>
+                <li><a href="#" class="fa-envelope"><span class="label">Email</span></a></li>
+            </ul>
+        </section>
+
+    </section>
+
+</div>
+<section id="footer" class="align-center">
+    <p class="copyright">&copy; HHHHp: <a rel="nofollow" href="http://www.beian.miit.gov.cn">粤ICP备19016891号</a>.
+</section>
+
+
+<script src="{% static '/275/assets/js/jquery.min.js' %}"></script>
+<script src="{% static '/275/assets/js/skel.min.js' %}"></script>
+<script src="{% static '/275/assets/js/util.js' %}"></script>
+<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+<script src="{% static '/275/assets/js/main.js' %}"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.8/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlightjs-line-numbers.js/2.7.0/highlightjs-line-numbers.min.js"></script>
+<script>
+
+    hljs.initHighlightingOnLoad();
+
+</script>
+
+
+{% block ajax %}
+
+{% endblock %}
+</body>
+</html>

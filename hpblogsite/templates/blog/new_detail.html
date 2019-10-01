@@ -1,0 +1,100 @@
+{% extends 'blog/base_new.html' %}
+{% load comments_area %}
+{% block title %}
+    {{ article.title }}
+{% endblock %}
+{% block article_detail %}
+    <article class="post">
+        <header>
+            <div class="title">
+                <h2 id="article-title"><a href="#">{{ article.title }}</a></h2>
+                <a href="#" id="heart" class="icon fa-heart-o">&nbsp;&nbsp;{{ article.like }}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                <a class="icon fa-book">&nbsp;&nbsp;{{ article.views }}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="#comment-area" class="icon fa-comment">&nbsp;&nbsp;{% show_comments_count article %}</a>
+
+            </div>
+            <div class="meta">
+                <time class="published" datetime="2015-10-18">{{ article.created_time.year }}&nbsp;&nbsp;
+                    {{ article.created_time.month }}&nbsp;&nbsp;{{ article.created_time.day }}
+                </time>
+                <a class="author"><span class="name">{{ article.author }}</span></a>
+
+            </div>
+        </header>
+
+        <section>
+
+            <h3>前言</h3>
+            <blockquote>{{ article.excerpt }}
+            </blockquote>
+
+        </section>
+
+        <section>
+            <p>{{ article.body|safe }}</p>
+        </section>
+
+
+
+
+{% show_comment_form article %}
+                {#        评论区#}
+{% show_comments article%}
+
+
+        <a href="#" class="icon fa-arrow-up" style="position:fixed;right:18px;bottom:18px"></a>&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+    </article>
+
+{% endblock %}
+
+{% block ajax %}
+    <script>
+        $("#goTop").click(function () {
+            $(".arrow-up").click();
+        });
+        $("#heart").click(function () {
+            $.ajax({
+                url: "/increase_like",
+                dataType: "json",
+                type: "GET",
+                async: "True",
+                data: {
+                    "id":{{article.id}},
+                },
+                success: function (data) {
+                    $("#heart").html("&nbsp;&nbsp;" + data["like"]).removeClass("fa-heart-o").addClass("fa-heartbeat");
+                    {#$("#heart").removeClass("fa-heart-o");#}
+                    {#$("#heart").addClass("fa-heartbeat");#}
+
+
+                }
+            })
+        });
+
+        {#$("#button").click(function () {#}
+        {#    $.ajax({#}
+                {#async:false,#}
+        {#        url:"{% url 'comments:comment' article.id %}",#}
+        {#        type:"post",#}
+        {#        data:{#}
+        {#            csrfmiddlewaretoken:$("[name='csrfmiddlewaretoken']").val(),#}
+        {#            name:$("#demo-name").val(),#}
+        {#            email:$("#demo-email").val(),#}
+        {#            text:$("#demo-message").val(),#}
+        {#        },#}
+        {#        success:function (data) {#}
+        {#     //       if (data.is_valid){#}
+        {#                location.href = "/post/{{ article.id }}";#}
+        {#     //       {else{#}
+        {##}
+        {#    //        }#}
+        {#        }#}
+        {#    });#}
+        {#})#}
+
+
+    </script>
+
+{% endblock %}

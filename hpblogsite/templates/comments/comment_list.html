@@ -1,0 +1,9 @@
+<h2 style="margin-bottom: 50px">评论列表,共{{ comment_count }}条评论</h2>
+{% for comment in comment_list %}
+    <section class=""  style="border-top: 1px solid #e4e4e4;">
+        <h2 style="margin-top: 10px">{{ comment.name }}&nbsp;&nbsp;{{ comment.created_time }}</h2>
+        <p style="color: grey;">{{ comment.text|linebreaks }}</p>
+        {% empty %}
+        暂无评论
+    </section>
+{% endfor %}

@@ -1,0 +1,30 @@
+{% load comments_area %}
+{% for article in articles %}
+        <article class="post">
+
+            <header>
+                <div class="title">
+                    <h2><a href="/post/{{ article.id }}">{{ article.title }}</a></h2>
+                    <p>{{ article.excerpt }}</p>
+                </div>
+                <div class="meta">
+                    <time class="published"
+                          datetime="2015-11-01">{{ article.created_time.year }}&nbsp;{{ article.created_time.month }}</time>
+                    <a href="#" class="author"><span class="name">{{ article.author }}</span></a>
+                </div>
+            </header>
+
+            <p>{{ article.abstract }}</p>
+            <footer>
+                <ul class="actions">
+                    <li><a href="/post/{{ article.id }}" class="button big">Continue Reading</a></li>
+                </ul>
+                <ul class="stats">
+                    {#                    <li><a href="#">General</a></li>#}
+                    <li><a class="icon fa-heart">{{ article.like }}</a></li>
+                    <li><a class="icon fa-book">{{ article.like }}</a></li>
+                    <li><a class="icon fa-comment">{% show_comments_count article %}</a></li>
+                </ul>
+            </footer>
+        </article>
+    {% endfor %}

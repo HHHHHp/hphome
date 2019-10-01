@@ -1,0 +1,39 @@
+    {% if is_paginated %}
+
+        <div class="pagination">
+
+            <div class="pages">
+                <ul class="actions pagination">
+                    {% if first %}
+                        <li><a href="?page=1" class="button big">1</a></li>
+                    {% endif %}
+                    {% if left %}
+                        {% if left_has_more %}
+                            <li><a class="button big">...</a></li>
+                        {% endif %}
+                        {% for i in left %}
+                            <li><a href="?page={{ i }}" class="button big">{{ i }}</a></li>
+                        {% endfor %}
+                    {% endif %}
+
+                    <li><a href="?page={{ page_obj.number }}" class="active button big">{{ page_obj.number }}</a></li>
+                    {% if right %}
+                        {% for i in right %}
+                            <li><a href="?page={{ i }}" class="button big">{{ i }}</a></li>
+
+                        {% endfor %}
+
+                        {% if right_has_more %}
+                            <li><a class="button big">...</a></li>
+
+                        {% endif %}
+                        {% if last %}
+                            <li><a href="?page={{ paginator.num_pages }}"
+                                   class="button big">{{ paginator.num_pages }}</a></li>
+                        {% endif %}
+                    {% endif %}
+                </ul>
+            </div>
+
+        </div>
+    {% endif %}
